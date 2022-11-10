@@ -1,9 +1,17 @@
 var jar = require('../models/jar'); 
  
 // List of all jar 
-exports.jar_list = function(req, res) { 
-    res.send('NOT IMPLEMENTED: jar list'); 
+exports.jar_list = async function(req, res) { 
+    try{ 
+        thejar = await jar.find(); 
+        res.send(thejar); 
+    } 
+    catch(err){ 
+        res.status(500); 
+        res.send(`{"error": ${err}}`); 
+    }   
 }; 
+ 
  
 // for a specific jar. 
 exports.jar_detail = function(req, res) { 
@@ -24,3 +32,15 @@ exports.jar_delete = function(req, res) {
 exports.jar_update_put = function(req, res) { 
     res.send('NOT IMPLEMENTED: jar update PUT' + req.params.id); 
 }; 
+// VIEWS 
+// Handle a show all view 
+exports.jar_view_all_Page = async function(req, res) { 
+    try{ 
+        thejar = await jar.find(); 
+        res.render('jar', { title: 'jar Search Results', results: thejar }); 
+    } 
+    catch(err){ 
+        res.status(500); 
+        res.send(`{"error": ${err}}`); 
+    }   
+};
