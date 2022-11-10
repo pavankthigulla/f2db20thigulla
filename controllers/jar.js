@@ -19,8 +19,24 @@ exports.jar_detail = function(req, res) {
 }; 
  
 // Handle jar create on POST. 
-exports.jar_create_post = function(req, res) { 
-    res.send('NOT IMPLEMENTED: jar create POST'); 
+exports.jar_create_post = async function(req, res) { 
+    console.log(req.body) 
+    let document = new jar(); 
+    // We are looking for a body, since POST does not have query parameters. 
+    // Even though bodies can be in many different formats, we will be picky 
+    // and require that it be a json object 
+    // {"jar_type":"goat", "cost":12, "size":"large"} 
+    document.length = req.body.length; 
+    document.weight = req.body.weight; 
+    document.height = req.body.height; 
+    try{ 
+        let result = await document.save(); 
+        res.send(result); 
+    } 
+    catch(err){ 
+        res.status(500); 
+        res.send(`{"error": ${err}}`); 
+    }   
 }; 
  
 // Handle jar delete form on DELETE. 
