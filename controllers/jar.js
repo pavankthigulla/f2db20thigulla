@@ -14,8 +14,15 @@ exports.jar_list = async function(req, res) {
  
  
 // for a specific jar. 
-exports.jar_detail = function(req, res) { 
-    res.send('NOT IMPLEMENTED: jar detail: ' + req.params.id); 
+exports.jar_detail = async function(req, res) { 
+    console.log("detail"  + req.params.id) 
+    try { 
+        result = await jar.findById( req.params.id) 
+        res.send(result) 
+    } catch (error) { 
+        res.status(500) 
+        res.send(`{"error": document for id ${req.params.id} not found`); 
+    } 
 }; 
  
 // Handle jar create on POST. 
@@ -45,9 +52,25 @@ exports.jar_delete = function(req, res) {
 }; 
  
 // Handle jar update form on PUT. 
-exports.jar_update_put = function(req, res) { 
-    res.send('NOT IMPLEMENTED: jar update PUT' + req.params.id); 
-}; 
+exports.jar_update_put = async function(req, res) { 
+    console.log(`update on id ${req.params.id} with body 
+${JSON.stringify(req.body)}`) 
+    try { 
+        let toUpdate = await jar.findById( req.params.id) 
+        // Do updates of properties 
+        if(req.body.length)  
+               toUpdate.length = req.body.length; 
+        if(req.body.weight) toUpdate.weight = req.body.weight; 
+        if(req.body.height) toUpdate.height = req.body.height; 
+        let result = await toUpdate.save(); 
+        console.log("Sucess " + result) 
+        res.send(result) 
+    } catch (err) { 
+        res.status(500) 
+        res.send(`{"error": ${err}: Update for id ${req.params.id} 
+failed`); 
+    } 
+};  
 // VIEWS 
 // Handle a show all view 
 exports.jar_view_all_Page = async function(req, res) { 
