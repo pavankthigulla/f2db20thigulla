@@ -1,0 +1,22 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  - let jarid = toShow._id 
+  - let length = toShow.length 
+  - let weight = toShow.weight
+  - let height = toShow.height 
+  div 
+    div.row 
+      div(class='jarAttr mr-3') jar ID is: 
+      div #{jarid} 
+    div.row 
+      div(class='jarAttr mr-3') jar length is: 
+      div #{length} 
+    div.row 
+      div(class='jarAttr mr-3') jar height is: 
+      div #{height} 
+    div.row 
+      div(class='jarAttr mr-3') jar weight is: 
+      div #{weight} 

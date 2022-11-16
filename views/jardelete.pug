@@ -1,0 +1,54 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  if (toShow == null) 
+    h2 No instance to delete 
+  else 
+    - let jarid = toShow._id 
+    - let length = toShow.length 
+    - let weight = toShow.weight
+    - let height = toShow.height 
+    - let actionid = "/resource/jar/" + jarid 
+    script let actionid = "#{actionid}" 
+    div 
+      div.row 
+        div(class='jarAttr mr-3') jar ID is: 
+        div #{jarid} 
+      div.row 
+        div(class='jarAttr mr-3') jar length is: 
+        div #{length} 
+      div.row 
+        div(class='jarAttr mr-3') jar height is: 
+        div #{height} 
+      div.row 
+        div(class='jarAttr mr-3') jar weight is: 
+        div #{weight} 
+ 
+    button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete 
+    button(class="btn btn-secondary m-2" onclick="cancel()") Cancel 
+ 
+  script. 
+    function cancel() { 
+      // Go back to the home page for the jar collection 
+      window.location.href='/jar' 
+    } 
+  script. 
+    function deleteOnid() { 
+      console.log("starting delete") 
+      // delete first 
+      fetch(actionid, { 
+        method: 'DELETE'     
+      }).then((resp) => { 
+        return resp.json(); // or resp.text() or whatever the server sends 
+      }).then((body) => { 
+        alert("Delete succeded") 
+        window.location.href='/jars' 
+        // TODO handle body 
+      }).catch((error) => { 
+        // TODO handle error 
+        alert("Delete failed " + error ) 
+      }); 
+    } 
+ 

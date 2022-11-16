@@ -1,0 +1,43 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  - let jarid = toShow._id 
+  - let length = toShow.length 
+  - let weigth = toShow.weigth 
+  - let height = toShow.height 
+   
+  div.row(class='mb-2') 
+    div.mr-1 ID is 
+    div #{jarid} 
+  - let actionid = "/resource/jar/" + jarid 
+  form(id='jarForm', action= actionid, method="PUT") 
+    div.form-group 
+        label.jarAttr(for='length') jar type 
+        input#length(type='text', name='length', value= length ) 
+    div.form-group 
+        label.jarAttr(for='height') jar height 
+        input#height(type='text', name='height', value= height ) 
+    div.form-group 
+        label.jarAttr(for='weight') jar weigth 
+        input#weigth(type='number', name='weigth', value= weigth ) 
+    input(type="submit") 
+ 
+  script. 
+    document.forms['jarForm'].addEventListener('submit', (event) => { 
+      event.preventDefault(); 
+      // TODO do something here to show user that form is being submitted 
+      fetch(event.target.action, { 
+        method: 'PUT', 
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
+      }).then((resp) => { 
+        return resp.json(); // or resp.text() or whatever the server sends 
+      }).then((body) => { 
+        alert("Update succeded") 
+        // TODO handle body 
+      }).catch((error) => { 
+        // TODO handle error 
+        alert("Update failed " + error ) 
+      }); 
+    }); 
