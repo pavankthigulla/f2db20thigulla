@@ -46,9 +46,17 @@ exports.jar_create_post = async function(req, res) {
     }   
 }; 
  
-// Handle jar delete form on DELETE. 
-exports.jar_delete = function(req, res) { 
-    res.send('NOT IMPLEMENTED: jar delete DELETE ' + req.params.id); 
+// Handle jar delete on DELETE. 
+exports.jar_delete = async function(req, res) { 
+    console.log("delete "  + req.params.id) 
+    try { 
+        result = await jar.findByIdAndDelete( req.params.id) 
+        console.log("Removed " + result) 
+        res.send(result) 
+    } catch (err) { 
+        res.status(500) 
+        res.send(`{"error": Error deleting ${err}}`); 
+    } 
 }; 
  
 // Handle jar update form on PUT. 
