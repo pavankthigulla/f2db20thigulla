@@ -1,11 +1,16 @@
 extends layout
 block content
   h1= title
-  - let result = [{length:3.00 , weight:4.00, height: 5.00},{length:6.00 , weight:7.00, height: 8.00},{length:9.00 , weight:10.00, height: 11.00}]
+  - let results= result;
+  a(class="btn btn-success" href="/jar/create") Create
   div(class="container-fluid")
-  div(class="row")
+  div(class="row m-1")
     each value,index in result
+      - let destination = `dispatch(\"/jar/update?id=${value._id}\")` 
         div(class="col-sm-2" onclick=`buy(${index})`)  #{value.length} -  #{value.weight} - #{value.height} 
+          button.btn( class="btn-primary ml-1", onclick= destination) Update    
+          a(class="btn btn-danger" href=`/jar/delete?id=${result._id}`) Delete
+          a(class="btn btn-dark" href=`/jar/detail?id=${result._id}`) Details
   br
   div(class="container-fluid")
     div(class="row")
@@ -16,3 +21,7 @@ block content
     function buy(indexNum) {
       alert(`You purchased item ${indexNum}`);
     }
+    function dispatch(path){ 
+      window.location.href=path 
+    } 
+    

@@ -83,8 +83,8 @@ failed`);
 // Handle a show all view 
 exports.jar_view_all_Page = async function(req, res) { 
     try{ 
-        thejar = await jar.find(); 
-        res.render('jar', { title: 'jar Search Results', results: thejar }); 
+        result = await jar.find(); 
+        res.render('jar', { title: 'jar Search Results', results: result}); 
     } 
     catch(err){ 
         res.status(500); 
